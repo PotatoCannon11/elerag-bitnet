@@ -31,7 +31,7 @@ uv sync
 2.  Create a folder named `models/` in the root directory.
 3.  Place the `.gguf` file inside `models/`.
 
-## 🚀 Usage
+## Usage
 
 ### 1. Ingest Data (Build the Index)
 Process the raw data into a hybrid vector/entity store.
@@ -46,7 +46,7 @@ Run the full RAG pipeline (Retrieval -> Re-ranking -> 1-bit Generation).
 python main.py query "What is the atomic weight of Mercury?"
 ```
 
-## 📊 Methodology
+## Methodology
 This system follows a three-stage pipeline:
 
 1.  **Smart Segmentation & Linking:** Input text is chunked with overlap. Entities are extracted using **Spacy** and linked to Wikidata IDs.
@@ -55,13 +55,13 @@ This system follows a three-stage pipeline:
     * *Fusion:* $Score = \frac{1}{k + rank_{dense}} + \frac{1}{k + rank_{entity}}$
 3.  **1-Bit Generation:** The re-ranked context is fed to BitNet, which generates the answer using significantly lower energy per token than standard LLMs.
 
-## 📂 Repository Structure
+## Repository Structure
 * `src/`: Core logic for ELERAG retrieval and BitNet inference.
 * `data/`: High-quality benchmark datasets.
 * `scripts/`: Utilities for corpus generation and PDF ingestion.
 * `experiments/`: Ablation studies and domain-specific tests (Legal, Education).
 
-## 📜 References
+## References
 This work is an implementation and extension of the following papers:
 * **ELERAG:** Granata et al., "Enhancing Retrieval-Augmented Generation with Entity Linking" (2025).
 * **BitNet:** Wang et al., "BitNet: Scaling 1-bit Transformers for Large Language Models" (2023).
