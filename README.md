@@ -1,20 +1,19 @@
 # ELERAG-BitNet: Entity-Linked RAG on 1-Bit Edge Hardware
 
-![System Status](https://img.shields.io/badge/Status-Research_Prototype-blue) ![Hardware](https://img.shields.io/badge/Hardware-1--Bit_Quantization-green) ![License](https://img.shields.io/badge/License-MIT-lightgrey)
+![System Status](https://img.shields.io/badge/Status-Research_Prototype-blue) ![Hardware](https://img.shields.io/badge/Hardware-1--Bit_Quantization-green) !
 
-## 📖 Abstract
 **ELERAG-BitNet** is a specialized Retrieval-Augmented Generation (RAG) system designed to run on low-resource hardware without sacrificing factual accuracy. 
 
 By integrating the **Entity Linking Enhanced RAG (ELERAG)** framework with **1-bit Transformer architecture (BitNet b1.58)**, this system addresses two critical challenges in modern AI:
 1.  **Hallucination in Specialized Domains:** Uses Wikidata entity disambiguation to prevent terminological confusion (e.g., distinguishing "Mercury" the element from "Mercury" the planet).
 2.  **Edge Deployability:** Replaces FP16 matrix multiplications with 1-bit integer additions, significantly reducing energy consumption and memory bandwidth.
 
-## ⚡ Key Features
+## Key Features
 * **Hybrid Retrieval:** Implements **Reciprocal Rank Fusion (RRF)** to combine dense vector search (`all-MiniLM-L6-v2`) with symbolic Entity Linking.
 * **1-Bit Inference:** Optimized for `BitNet b1.58` (via `llama.cpp` GGUF) to enable high-speed generation on consumer CPUs.
 * **Zero-Shot Disambiguation:** Dynamically links entities using a semantic-similarity + popularity hybrid score.
 
-## 🛠️ Installation
+## Installation
 
 ### 1. Environment Setup
 This project uses `uv` for dependency management (recommended), but standard pip works as well.
