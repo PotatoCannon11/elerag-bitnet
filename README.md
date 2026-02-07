@@ -1,6 +1,6 @@
 # ELERAG-BitNet: Entity-Linked RAG on 1-Bit Edge Hardware
 
-![System Status](https://img.shields.io/badge/Status-Research_Prototype-blue) ![Hardware](https://img.shields.io/badge/Hardware-1--Bit_Quantization-green) !
+![System Status](https://img.shields.io/badge/Status-Research_Prototype-blue) ![Hardware](https://img.shields.io/badge/Hardware-1--Bit_Quantization-green)
 
 **ELERAG-BitNet** is a specialized Retrieval-Augmented Generation (RAG) system designed to run on low-resource hardware without sacrificing factual accuracy. 
 
