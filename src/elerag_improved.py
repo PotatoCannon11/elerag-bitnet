@@ -7,12 +7,15 @@ import csv
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# --- CONFIGURATION ---
-# ON MAC: Keep these paths.
-BITNET_EXEC = "/Users/henrystiglitz/BitNet/build/bin/llama-cli" 
-BITNET_MODEL = "ggml-model-i2_s.gguf" 
-MEMORY_FILE = "pi_memory.json"
-ENTITY_CACHE_FILE = "entity_cache.json"
+BASE_DIR = Path(__file__).resolve().parent.parent
+BITNET_EXEC = BASE_DIR / "models" / "llama-cli" 
+BITNET_MODEL = BASE_DIR / "models" / "ggml-model-i2_s.gguf" 
+MEMORY_FILE = BASE_DIR / "pi_memory.json"
+ENTITY_CACHE_FILE = BASE_DIR / "entity_cache.json"
+
+if not BITNET_MODEL.exists():
+    print(f"WARNING: Model not found at {BITNET_MODEL}")
+    print("Please download the GGUF model and place it in the 'models/' folder.")
 
 # Load Models
 print("Loading system...")
@@ -172,7 +175,7 @@ def query_system(query):
     
     query_vec = np.mean(embed_model.encode(variations, normalize_embeddings=True), axis=0)
     
-    # 2. RRF Fusion (Paper Requirement)
+    # 2. RRF Fusion
     dense_hits = sorted([(d['id'], cosine_sim(query_vec, d['vector'])) for d in memory], key=lambda x:x[1], reverse=True)[:15]
     rrf_scores = {doc_id: 1/(60+r) for r, (doc_id, _) in enumerate(dense_hits)}
     
@@ -180,7 +183,7 @@ def query_system(query):
     if q_ents:
         entity_hits = []
         for doc in memory:
-            # Fix: JSON loads entities as lists, which breaks sets. Convert back to tuples.
+            # JSON loads entities as lists, which breaks sets. Convert back to tuples.
             doc_ents_set = {tuple(e) for e in doc['entities']}
             matches = len(doc_ents_set.intersection(set(q_ents)))
             if matches > 0: entity_hits.append((doc['id'], matches))
@@ -188,7 +191,7 @@ def query_system(query):
         for r, (doc_id, _) in enumerate(sorted(entity_hits, key=lambda x:x[1], reverse=True)[:15]):
             rrf_scores[doc_id] = rrf_scores.get(doc_id, 0) + 1/(60+r)
 
-    # 3. Diversity Check (Dedup)
+    # 3. Diversity Check 
     top_ids = sorted(rrf_scores, key=rrf_scores.get, reverse=True)[:10]
     final_ids = [top_ids[0]]
     for cand_id in top_ids[1:]:
